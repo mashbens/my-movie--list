@@ -3,7 +3,6 @@ package user
 import (
 	"errors"
 	"log"
-	repo "rest-api/repository/user"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -14,10 +13,10 @@ type AuthService interface {
 }
 
 type authService struct {
-	userRepo repo.UserRepository
+	userRepo UserRepository
 }
 
-func NewAuthService(userRepo repo.UserRepository) AuthService {
+func NewAuthService(userRepo UserRepository) AuthService {
 	return &authService{
 		userRepo: userRepo,
 	}

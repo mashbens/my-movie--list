@@ -24,13 +24,7 @@ func RegisterRoutes(e *echo.Echo, controller *Controller) {
 	authRoutes.POST("/register", controller.Auth.Register)
 
 	userRoutes := e.Group("/api/v1/user", middleware.AuthorizeJWT(jwtService))
-	// userRoutes.Use(middleware.AuthorizeJWT(service.NewJWTService()))
 	userRoutes.GET("/profile", controller.User.Profile)
 	userRoutes.PUT("/profile", controller.User.Update)
-
-	// userRoutes := e.Group("/api/v1/user", middleware.AuthorizeJWT(service.NewJWTService()))
-	// // userRoutes.Use(middleware.AuthorizeJWT(service.NewJWTService()))
-	// userRoutes.GET("/profile", controller.User.Profile)
-	// userRoutes.PUT("/profile", controller.User.Update)
 
 }

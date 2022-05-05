@@ -9,7 +9,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-//JWTService is a contract of what jwtService can do
 type JWTService interface {
 	GenerateToken(userID string) string
 	ValidateToken(token string, ctx echo.Context) *jwt.Token
@@ -25,7 +24,6 @@ type jwtService struct {
 	issuer    string
 }
 
-//NewJWTService method is creates a new instance of JWTService
 func NewJWTService() JWTService {
 	return &jwtService{
 		issuer:    "admin",

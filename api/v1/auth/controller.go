@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"rest-api/api/common/response"
 	service "rest-api/business/user"
-	"rest-api/dto"
+	"rest-api/business/user/dto"
 	"strconv"
 
 	"github.com/labstack/echo/v4"

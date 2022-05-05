@@ -3,14 +3,22 @@ package user
 import (
 	"errors"
 	"log"
+	"rest-api/business/user/dto"
 	"rest-api/business/user/entity"
 	_user "rest-api/business/user/response"
-	"rest-api/dto"
-	repo "rest-api/repository/user"
+
+	// repo "rest-api/repository/user"
 
 	"github.com/mashingan/smapping"
 	"gorm.io/gorm"
 )
+
+type UserRepository interface {
+	InsertUser(user entity.User) (entity.User, error)
+	UpdateUser(user entity.User) (entity.User, error)
+	FindByEmail(email string) (entity.User, error)
+	FindByUserID(userID string) (entity.User, error)
+}
 
 type UserService interface {
 	CreateUser(registerRequest dto.RegisterRequest) (*_user.UserResponse, error)
@@ -20,10 +28,10 @@ type UserService interface {
 }
 
 type userService struct {
-	userRepo repo.UserRepository
+	userRepo UserRepository
 }
 
-func NewUserService(userRepo repo.UserRepository) UserService {
+func NewUserService(userRepo UserRepository) UserService {
 	return &userService{
 		userRepo: userRepo,
 	}
