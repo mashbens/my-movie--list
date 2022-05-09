@@ -1,15 +1,6 @@
 [app]
 port = 8081
 
-
-
-// MySQL
-[database]
-driver = "MySQL"
-db_url = "root:arif1412@tcp(127.0.0.1:3306)/ref_mini?charset=utf8mb4&parseTime=True&loc=Local"
-
-
-// PostgreSQL
 [database]
 driver = "PostgreSQL"
-db_url = "host=localhost user=postgres password=arif1412 dbname=ref_mini port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+db_url = ""
