@@ -50,6 +50,7 @@ require (
 )
 
 require (
+	github.com/eefret/gomdb v0.0.0-20171206153129-8a1e0abd4449
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/jinzhu/inflection v1.0.0 // indirect

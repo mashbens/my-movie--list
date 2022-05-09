@@ -3,6 +3,7 @@ package api
 import (
 	"rest-api/api/middleware"
 	"rest-api/api/v1/auth"
+	"rest-api/api/v1/movie"
 	"rest-api/api/v1/user"
 
 	service "rest-api/business/user"
@@ -13,8 +14,9 @@ import (
 var jwtService service.JWTService = service.NewJWTService()
 
 type Controller struct {
-	Auth *auth.AuthController
-	User *user.UserController
+	Auth  *auth.AuthController
+	User  *user.UserController
+	Movie *movie.MovieController
 }
 
 func RegisterRoutes(e *echo.Echo, controller *Controller) {
@@ -27,4 +29,8 @@ func RegisterRoutes(e *echo.Echo, controller *Controller) {
 	userRoutes.GET("/profile", controller.User.Profile)
 	userRoutes.PUT("/profile", controller.User.Update)
 
+	movieRoutes := e.Group("/api/v1/movie", middleware.AuthorizeJWT(jwtService))
+	movieRoutes.GET("/", controller.Movie.All)
+	movieRoutes.GET("/:search", controller.Movie.SearchMovie)
+	movieRoutes.POST("/mylist", controller.Movie.AddWishList)
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 	"rest-api/app/modules"
 	"rest-api/config"
 	"rest-api/util"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -37,5 +39,13 @@ func main() {
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
+
+	defer dbCon.CloseConnection()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if err := e.Shutdown(ctx); err != nil {
+		log.Fatal(err)
+	}
 
 }
