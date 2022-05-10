@@ -30,12 +30,21 @@ func (c *MysqlmovieRepository) InsertMovie(movie entity.Movie) (entity.Movie, er
 	return movie, nil
 }
 
-// func (c *movieRepository) DeleteMovie(movieID string, userID string) error {
-// 	var movie entity.Movie
-// 	c.db.Where("id = ? AND user_id = ?", movieID, userID).First(&movie)
-// 	if movie.ID == "" {
-// 		return nil
-// 	}
-// 	c.db.Delete(&movie)
-// 	return nil
-// }
+func (c *MysqlmovieRepository) FindOneMovieByID(ID string) (entity.Movie, error) {
+	var movie entity.Movie
+	res := c.db.Preload("User").Where("id = ?", ID).First(&movie)
+	if res.Error != nil {
+		return movie, res.Error
+	}
+	return movie, nil
+}
+
+func (c *MysqlmovieRepository) DelMovie(movieID string) error {
+	var movie entity.Movie
+	res := c.db.Preload("User").Where("id = ?", movieID).First(&movie)
+	if res.Error != nil {
+		return res.Error
+	}
+	c.db.Delete(&movie)
+	return nil
+}

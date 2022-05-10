@@ -27,6 +27,7 @@ type MovieResponse struct {
 
 func NewMovieResponse(movie entity.Movie) MovieResponse {
 	return MovieResponse{
+		ID:         movie.ID,
 		MovieID:    movie.MovieID,
 		Title:      movie.Title,
 		Year:       movie.Year,

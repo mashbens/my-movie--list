@@ -3,6 +3,7 @@ package movie
 import (
 	"fmt"
 	"net/http"
+	"rest-api/api/common/obj"
 	"rest-api/api/common/response"
 	movieService "rest-api/business/movie"
 	"rest-api/business/movie/dto"
@@ -58,8 +59,6 @@ func (controller *MovieController) AddWishList(c echo.Context) error {
 		return err
 	}
 	intuserID, _ := strconv.Atoi(userID)
-	// ini
-
 	movie := dto.CreateMovieRequest{
 		MovieID:  req.ID,
 		Title:    res.Title,
@@ -76,7 +75,6 @@ func (controller *MovieController) AddWishList(c echo.Context) error {
 		Awards:   res.Awards,
 		Poster:   res.Poster,
 		UserID:   int64(intuserID),
-		// User:     _entity.User{ID: int64(intuserID)},
 	}
 
 	movies, err := controller.movieService.AddMovie(movie, int64(intuserID))
@@ -103,5 +101,44 @@ func (controller *MovieController) SearchMovie(c echo.Context) error {
 		return err
 	}
 	response := res
+	return c.JSON(http.StatusOK, response)
+}
+
+func (controller *MovieController) FindOneMovieByID(c echo.Context) error {
+	authHeader := c.Request().Header.Get("Authorization")
+	token := controller.jwtService.ValidateToken(authHeader, c)
+	claims := token.Claims.(jwt.MapClaims)
+	userID := fmt.Sprintf("%v", claims["user_id"])
+	_ = userID
+
+	req := new(dto.MovieRequest)
+	c.Bind(req)
+
+	reqId := req.ID
+	movie, err := controller.movieService.FindMovieByID(reqId)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.BuildErrorResponse("Failed to process request", "Failed to get movies", nil))
+	}
+	response := movie
+	return c.JSON(http.StatusOK, response)
+}
+
+func (controller *MovieController) DeleteMovie(c echo.Context) error {
+	authHeader := c.Request().Header.Get("Authorization")
+	token := controller.jwtService.ValidateToken(authHeader, c)
+	claims := token.Claims.(jwt.MapClaims)
+	userID := fmt.Sprintf("%v", claims["user_id"])
+
+	req := new(dto.MovieRequest)
+	c.Bind(req)
+
+	reqId := req.ID
+
+	err := controller.movieService.DeleteMovie(reqId, userID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.BuildErrorResponse("Failed to process request", "Failed to get movies", nil))
+	}
+
+	response := response.BuildResponse(true, "Movie deleted", obj.EmptyObj{})
 	return c.JSON(http.StatusOK, response)
 }

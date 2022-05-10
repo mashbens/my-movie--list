@@ -3,7 +3,7 @@ package dto
 type MovieRequest struct {
 	Search string `json:"search" param:"search"`
 	Title  string `json:"title" `
-	ID     string `json:"id" `
+	ID     string `json:"id" param:"id"`
 }
 
 type CreateMovieRequest struct {
