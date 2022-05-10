@@ -1,7 +1,6 @@
 ```
 .
 │   config.toml
-│   config.toml.example
 │   go.mod
 │   go.sum
 │   main.go
