@@ -1,83 +1,49 @@
+```
 .
-│   .gitignore
-│   config.toml
-│   config.toml.example
-│   go.mod
-│   go.sum
-│   main.go
-│
-├───api
-│   │   router.go
-│   │
-│   ├───common
-│   │   ├───obj
-│   │   │       obj_common.go
-│   │   │
-│   │   └───response
-│   │           response_ommon.go
-│   │
-│   ├───middleware
-│   │       middleware.go
-│   │
-│   └───v1
-│       ├───auth
-│       │       controller.go
-│       │
-│       ├───movie
-│       │       controller.go
-│       │
-│       └───user
-│               controller.go
-│
-├───app
-│   └───modules
-│           modules.go
-│
-├───business
-│   ├───movie
-│   │   │   service.go
-│   │   │   service_test.go
-│   │   │
-│   │   ├───dto
-│   │   │       movie_dto.go
-│   │   │
-│   │   ├───entity
-│   │   │       movie_entity.go
-│   │   │
-│   │   └───response
-│   │           movie_response.go
-│   │
-│   └───user
-│       │   auth_service.go
-│       │   jwt_service.go
-│       │   service.go
-│       │   service_test.go
-│       │
-│       ├───dto
-│       │       login.dto.go
-│       │       register.dto.go
-│       │       user.dto.go
-│       │
-│       ├───entity
-│       │       user_entity.go
-│       │
-│       └───response
-│               user_response.go
-│
-├───config
-│       config.go
-│
-├───repository
-│   ├───movie
-│   │       factory.go
-│   │       mysql.go
-│   │       postgres.go
-│   │
-│   └───user
-│           factory.go
-│           mongo_repo.go
-│           mysql.go
-│           postgres.go
-│
-└───util
-      driver.go
+├── LICENSE
+├── README.md
+├── api
+│   ├── common
+│   │   └── dresponse.go
+│   ├── insomnia.json
+│   ├── router.go
+│   └── v1
+│       └── content
+│           ├── controller.go
+│           ├── request
+│           │   ├── create_content.go
+│           │   └── update_content.go
+│           └── response
+│               ├── create_new_content.go
+│               ├── get_content_by_id.go
+│               └── get_content_by_tag.go
+├── app
+│   ├── main.go
+│   └── modules
+│       └── modules.go
+├── business
+│   ├── content
+│   │   ├── item.go
+│   │   ├── service.go
+│   │   ├── service_test.go
+│   │   └── spec
+│   │       └── upsert_item.go
+│   └── error.go
+├── config
+│   ├── config.go
+│   └── config.yaml
+├── go.mod
+├── go.sum
+├── modules
+│   └── repository
+│       └── content
+│           ├── couchdb_repo.go
+│           ├── factory.go
+│           ├── mongo_repo.go
+│           └── mysql_repo.go
+├── poseidon.png
+├── run.sh
+└── util
+    ├── dbdriver.go
+    └── idgen.go
+```
