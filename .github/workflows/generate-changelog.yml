@@ -2,7 +2,7 @@ name: Build Go App
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-app:
@@ -15,3 +15,7 @@ jobs:
           go-version: 1.17
       - name: Verify module
         run: go mod verify
+      - name: Build go App
+        run: go build -v ./...
+      - name: Check go vet linting
+        run: go vet ./...
