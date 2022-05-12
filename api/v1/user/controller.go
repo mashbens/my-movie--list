@@ -29,18 +29,48 @@ func NewUserController(
 	}
 }
 
-func (controller *UserController) getUserIDByHeader(c echo.Context) string {
+// Profile godoc
+// @Summary Get user profile
+// @Description Get user profile, Header[Authorization]: Token
+// @Tags user
+// @Accept json
+// @Produce json
+// @Security Header[Authorization] Token
+// @Success 200 {object} response.Response
+// @Router /api/v1/user/profile [get]
+func (controller *UserController) Profile(c echo.Context) error {
 	header := c.Request().Header.Get("Authorization")
-
-	if header == "" {
-		return fmt.Sprint("Error", "Failed to validate token")
-	}
 	token := controller.jwtService.ValidateToken(header, c)
+	if header == "" {
+		response := response.BuildErrorResponse("Failed to process request", "Failed to validate token", nil)
+		return c.JSON(http.StatusBadRequest, response)
+	}
+
 	claims := token.Claims.(jwt.MapClaims)
 	id := fmt.Sprintf("%v", claims["user_id"])
-	return id
+	user, err := controller.userService.FindUserByID(id)
+
+	if err != nil {
+		response := response.BuildErrorResponse("Failed to process request", err.Error(), nil)
+		return c.JSON(http.StatusBadRequest, response)
+	}
+
+	response := response.BuildResponse(true, "User found", user)
+	return c.JSON(http.StatusOK, response)
 }
 
+// Update godoc
+// @Summary Update user
+// @Description Update user, Header[Authorization]: Token
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param Name body string true "Name"
+// @Param Email body string true "Email"
+// @Param Password body string true "Password"
+// @Success 200 {object} response.Response
+// @Security Header[Authorization] Token
+// @Router /api/v1/user [put]
 func (controller *UserController) Update(c echo.Context) error {
 	var updateUserRequest dto.UpdateUserRequest
 
@@ -68,23 +98,14 @@ func (controller *UserController) Update(c echo.Context) error {
 	return c.JSON(http.StatusOK, response)
 }
 
-func (controller *UserController) Profile(c echo.Context) error {
+func (controller *UserController) getUserIDByHeader(c echo.Context) string {
 	header := c.Request().Header.Get("Authorization")
-	token := controller.jwtService.ValidateToken(header, c)
-	if header == "" {
-		response := response.BuildErrorResponse("Failed to process request", "Failed to validate token", nil)
-		return c.JSON(http.StatusBadRequest, response)
-	}
 
+	if header == "" {
+		return fmt.Sprint("Error", "Failed to validate token")
+	}
+	token := controller.jwtService.ValidateToken(header, c)
 	claims := token.Claims.(jwt.MapClaims)
 	id := fmt.Sprintf("%v", claims["user_id"])
-	user, err := controller.userService.FindUserByID(id)
-
-	if err != nil {
-		response := response.BuildErrorResponse("Failed to process request", err.Error(), nil)
-		return c.JSON(http.StatusBadRequest, response)
-	}
-
-	response := response.BuildResponse(true, "User found", user)
-	return c.JSON(http.StatusOK, response)
+	return id
 }

@@ -23,7 +23,7 @@ func RegisterRoutes(e *echo.Echo, controller *Controller) {
 
 	authRoutes := e.Group("/api/v1/auth")
 	authRoutes.POST("/login", controller.Auth.Login)
-	authRoutes.POST("/register", controller.Auth.Register)
+	authRoutes.POST("/register", controller.Auth.RegisterHandler)
 
 	userRoutes := e.Group("/api/v1/user", middleware.AuthorizeJWT(jwtService))
 	userRoutes.GET("/profile", controller.User.Profile)
@@ -31,7 +31,7 @@ func RegisterRoutes(e *echo.Echo, controller *Controller) {
 
 	movieRoutes := e.Group("/api/v1/movie", middleware.AuthorizeJWT(jwtService))
 	movieRoutes.GET("/mylist", controller.Movie.All)
-	movieRoutes.GET("/:search", controller.Movie.SearchMovie)
+	movieRoutes.GET("/search/:search", controller.Movie.SearchMovie)
 	movieRoutes.POST("/addlist", controller.Movie.AddWishList)
 	movieRoutes.GET("/mylist/:id", controller.Movie.FindOneMovieByID)
 	movieRoutes.DELETE("/mylist/:id", controller.Movie.DeleteMovie)

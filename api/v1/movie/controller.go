@@ -30,6 +30,14 @@ func NewMovieController(
 	}
 }
 
+// All godoc
+// @Summary Get all user movies
+// @Description Get all user movies(watchlist),  Header[Authorization]: Token
+// @Tags movie
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Router /api/v1/movie/all [get]
 func (controller *MovieController) All(c echo.Context) error {
 	authHeader := c.Request().Header.Get("Authorization")
 	token := controller.jwtService.ValidateToken(authHeader, c)
@@ -43,6 +51,16 @@ func (controller *MovieController) All(c echo.Context) error {
 	response := movies
 	return c.JSON(http.StatusOK, response)
 }
+
+// AddWishlist godoc
+// @Summary Add movie to watchlist
+// @Description Add movie to watchlist, Header[Authorization]: Token
+// @Tags movie
+// @Accept json
+// @Produce json
+// @Param ID body string true "Movie ID"
+// @Success 200 {object} response.Response
+// @Router /api/v1/movie/add [post]
 func (controller *MovieController) AddWishList(c echo.Context) error {
 	authHeader := c.Request().Header.Get("Authorization")
 	token := controller.jwtService.ValidateToken(authHeader, c)
@@ -85,6 +103,16 @@ func (controller *MovieController) AddWishList(c echo.Context) error {
 	return c.JSON(http.StatusOK, response)
 }
 
+// SearchMovie godoc
+// @Summary Search movie
+// @Description Search movie, Header[Authorization]: Token, Param: movie name
+// @Description Example: /api/v1/movie/search/avengers
+// @Tags movie
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Response
+// @Router /api/v1/movie/search [post]
 func (controller *MovieController) SearchMovie(c echo.Context) error {
 	authHeader := c.Request().Header.Get("Authorization")
 	token := controller.jwtService.ValidateToken(authHeader, c)
@@ -104,6 +132,15 @@ func (controller *MovieController) SearchMovie(c echo.Context) error {
 	return c.JSON(http.StatusOK, response)
 }
 
+// FindOneMovieByID godoc
+// @Summary Find movie by ID From watchlist
+// @Description Find movie by ID From watchlist, Header[Authorization]: Token
+// @Description Example: /api/v1/movie/mylist/1
+// @Tags movie
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Router /api/v1/movie/mylist/:id [get]
 func (controller *MovieController) FindOneMovieByID(c echo.Context) error {
 	authHeader := c.Request().Header.Get("Authorization")
 	token := controller.jwtService.ValidateToken(authHeader, c)
@@ -123,6 +160,15 @@ func (controller *MovieController) FindOneMovieByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, response)
 }
 
+// DeleteMovieFromWatchlist godoc
+// @Summary Delete movie from watchlist
+// @Description Delete movie from watchlist, Header[Authorization]: Token
+// @Description Example: /api/v1/movie/mylist/1
+// @Tags movie
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Router /api/v1/movie/mylist/:id [delete]
 func (controller *MovieController) DeleteMovie(c echo.Context) error {
 	authHeader := c.Request().Header.Get("Authorization")
 	token := controller.jwtService.ValidateToken(authHeader, c)

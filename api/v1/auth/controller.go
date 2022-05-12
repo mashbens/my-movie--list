@@ -28,10 +28,19 @@ func NewAuthController(
 	}
 }
 
+// Login godoc
+// @Summary Login
+// @Description Login user
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param email body string true "Email"
+// @Param password body string true "Password"
+// @Success 200 {object} response.Response
+// @Router /api/v1/auth/login [post]
 func (controller *AuthController) Login(c echo.Context) error {
 	var loginRequest dto.LoginRequest
 	err := c.Bind(&loginRequest)
-
 	if err != nil {
 		response := response.BuildErrorResponse("Failed to process request", "Invalid request body", nil)
 		return c.JSON(http.StatusBadRequest, response)
@@ -50,7 +59,18 @@ func (controller *AuthController) Login(c echo.Context) error {
 	return c.JSON(http.StatusOK, response)
 }
 
-func (controller *AuthController) Register(c echo.Context) error {
+// RegisterHandler godoc
+// @Summary Register
+// @Description Register user
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param Name body string true "Name"
+// @Param email body string true "Email"
+// @Param password body string true "Password"
+// @Success 200 {object} response.Response
+// @Router /api/v1/auth/register [post]
+func (controller *AuthController) RegisterHandler(c echo.Context) error {
 	var registerRequest dto.RegisterRequest
 	err := c.Bind(&registerRequest)
 	if err != nil {

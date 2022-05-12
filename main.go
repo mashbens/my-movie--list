@@ -14,8 +14,12 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
+// @title Swagger Movie API
+// @version 1.0
+// @description Brikut API yang digunakan untuk memanage movie data
 func main() {
 	config := config.GetConfig()
 	dbCon := util.NewConnectionDatabase(config)
@@ -23,8 +27,12 @@ func main() {
 	controllers := modules.RegisterModules(dbCon, config)
 
 	e := echo.New()
+	handleSwag := echoSwagger.WrapHandler
+
+	e.GET("/swagger/*", handleSwag)
+
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "hello world")
+		return c.String(http.StatusOK, "OK")
 	})
 
 	api.RegisterRoutes(e, &controllers)
