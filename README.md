@@ -1,9 +1,19 @@
 ```
 .
+│   .gitignore
 │   config.toml
+│   cover.out
+│   coverage.out
 │   go.mod
 │   go.sum
 │   main.go
+│   README.md
+│   rest-api.exe
+│
+├───.github
+│   └───workflows
+│           generate-changelog.yml
+│           static-analysis.yml
 │
 ├───api
 │   │   router.go
@@ -65,6 +75,11 @@
 │
 ├───config
 │       config.go
+│
+├───docs
+│       docs.go
+│       swagger.json
+│       swagger.yaml
 │
 ├───repository
 │   ├───movie
