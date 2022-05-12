@@ -40,14 +40,14 @@ func initConfig() *AppConfig {
 	viper.AddConfigPath(".")
 
 	if err := viper.ReadInConfig(); err != nil {
-		log.Info("error reading config file: %s, will return default config", err)
+		log.Info("No config file found, using default config")
 
 		return &defaultConfig
 	}
 	var finalConfig AppConfig
 	err := viper.Unmarshal(&finalConfig)
 	if err != nil {
-		log.Info("error unmarshalling config: %s, will return default config", err)
+		log.Info("Failed to parse config file, using default config")
 		return &defaultConfig
 	}
 	return &finalConfig
