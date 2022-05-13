@@ -5,6 +5,7 @@ on:
       - 'v1.0.0*' 
 jobs:
   build:
+    permissions: {}
     name: Create Release
     runs-on: ubuntu-latest
     steps:
