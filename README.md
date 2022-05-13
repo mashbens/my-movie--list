@@ -8,7 +8,6 @@
 │   go.sum
 │   main.go
 │   README.md
-│   rest-api.exe
 │
 ├───.github
 │   └───workflows
