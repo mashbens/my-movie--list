@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"os/signal"
 	"rest-api/api"
@@ -32,10 +31,6 @@ func main() {
 	handleSwag := echoSwagger.WrapHandler
 
 	e.GET("/swagger/*", handleSwag)
-
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "OK")
-	})
 
 	api.RegisterRoutes(e, &controllers)
 
