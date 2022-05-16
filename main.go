@@ -14,7 +14,7 @@ import (
 
 	// for ex
 	dbMov "rest-api/business/movie/entity"
-	dbUser "rest-api/business/user/entity"
+	// dbUser "rest-api/business/user/entity"
 
 	_ "rest-api/docs"
 
@@ -87,5 +87,5 @@ func InitDB() {
 	if err != nil {
 		panic(err)
 	}
-	DB.AutoMigrate(&dbUser.User{}, &dbMov.Movie{})
+	DB.AutoMigrate(&dbMov.Movie{})
 }
