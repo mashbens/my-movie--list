@@ -3,4 +3,4 @@ port = 8081
 
 [database]
 driver = "PostgreSQL"
-db_url = "host=localhost user=postgres password=arif1412 dbname=ref_mini port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+db_url = "host=ec2-3-229-11-55.compute-1.amazonaws.com user=zzrjjedyarnucl password=2706b8a43ee46e5f83d361b0bfd931bbd80a42ade11cfbe90d45cd6362f790a9 dbname=dd29tj5s6ptpvg port=5432 sslmode=require TimeZone=Asia/Shanghai"
