@@ -75,7 +75,7 @@ func main() {
 
 var DB *gorm.DB
 
-type Movies struct {
+type Movie struct {
 	ID         int    `gorm:"primary_key:auto_increment" json:"-"`
 	MovieID    string `gorm:"type:varchar(100)" json:"-"`
 	Title      string `gorm:"type:varchar(100)" json:"-"`
@@ -115,5 +115,5 @@ func InitDB() {
 }
 
 func InitMigrate() {
-	DB.AutoMigrate(&User{}, &Movies{})
+	DB.AutoMigrate(&User{}, &Movie{})
 }
