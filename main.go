@@ -106,7 +106,7 @@ func InitDB() {
 	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 	DB.AutoMigrate(&Movies{}, &dbUser.User{})
 }
