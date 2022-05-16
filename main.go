@@ -28,6 +28,7 @@ import (
 // @version 1.0
 // @description Brikut API yang digunakan untuk memanage movie data
 func main() {
+	InitDB()
 	config := config.GetConfig()
 	dbCon := util.NewConnectionDatabase(config)
 
