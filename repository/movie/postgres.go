@@ -18,10 +18,10 @@ func NewPosgresMovieRepository(db *gorm.DB) movie.MovieRepository {
 }
 
 func (c *PostgreMovieRepository) All(userID string) ([]entity.Movie, error) {
-	movies := []entity.Movie{}
+	movie := []entity.Movie{}
 
-	c.db.Preload("User").Where("user_id = ?", userID).Find(&movies)
-	return movies, nil
+	c.db.Preload("User").Where("user_id = ?", userID).Find(&movie)
+	return movie, nil
 }
 
 func (c *PostgreMovieRepository) InsertMovie(movie entity.Movie) (entity.Movie, error) {
