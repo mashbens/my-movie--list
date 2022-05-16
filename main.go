@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"rest-api/api"
@@ -30,16 +30,30 @@ func main() {
 	e := echo.New()
 	handleSwag := echoSwagger.WrapHandler
 
+	// e.GET("/swagger/*", handleSwag)
+
+	// api.RegisterRoutes(e, &controllers)
+
+	// go func() {
+	// 	addres := fmt.Sprintf(":%d", config.App.Port)
+	// 	if err := e.Start(addres); err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// }()
+
 	e.GET("/swagger/*", handleSwag)
+
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "OK!!")
+	})
 
 	api.RegisterRoutes(e, &controllers)
 
-	go func() {
-		addres := fmt.Sprintf(":%d", config.App.Port)
-		if err := e.Start(addres); err != nil {
-			log.Fatal(err)
-		}
-	}()
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8084"
+	}
+	e.Logger.Fatal(e.Start(":" + port))
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
