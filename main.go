@@ -30,6 +30,7 @@ func main() {
 	e := echo.New()
 	handleSwag := echoSwagger.WrapHandler
 
+	// error heroku
 	// e.GET("/swagger/*", handleSwag)
 
 	// api.RegisterRoutes(e, &controllers)
