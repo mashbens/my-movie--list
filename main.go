@@ -108,5 +108,5 @@ func InitDB() {
 	if err != nil {
 		panic(err)
 	}
-	DB.AutoMigrate(&Movies{})
+	DB.AutoMigrate(&Movies{}, &dbUser.User{})
 }
