@@ -16,15 +16,12 @@ import (
 
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 // @title Swagger Movie API
 // @version 1.0
 // @description Brikut API yang digunakan untuk memanage movie data
 func main() {
-	InitDB()
 	config := config.GetConfig()
 	dbCon := util.NewConnectionDatabase(config)
 
@@ -71,49 +68,4 @@ func main() {
 		log.Fatal(err)
 	}
 
-}
-
-var DB *gorm.DB
-
-type Movie struct {
-	ID         int    `gorm:"primary_key:auto_increment" json:"-"`
-	MovieID    string `gorm:"type:varchar(100)" json:"-"`
-	Title      string `gorm:"type:varchar(100)" json:"-"`
-	Year       string `gorm:"type:varchar(100)" json:"-"`
-	Runtime    string `gorm:"type:varchar(100)" json:"-"`
-	Released   string `gorm:"type:varchar(100)" json:"-"`
-	Genre      string `gorm:"type:varchar(100)" json:"-"`
-	Director   string `gorm:"type:varchar(100)" json:"-"`
-	Writer     string `gorm:"type:varchar(100)" json:"-"`
-	Actors     string `gorm:"type:varchar(100)" json:"-"`
-	Plot       string `gorm:"type:longtext" json:"-"`
-	Language   string `gorm:"type:varchar(100)" json:"-"`
-	Country    string `gorm:"type:varchar(100)" json:"-"`
-	Awards     string `gorm:"type:varchar(100)" json:"-"`
-	Poster     string `gorm:"type:longtext" json:"-"`
-	ImdbRating string `gorm:"type:varchar(100)" json:"-"`
-	UserID     int64
-	User       User `gorm:"foreignkey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"-"`
-}
-type User struct {
-	ID       int64  `gorm:"primary_key:auto_increment" json:"-"`
-	Name     string `gorm:"type:varchar(100)" json:"-"`
-	Email    string `gorm:"type:varchar(100);unique;" json:"-"`
-	Password string `gorm:"type:varchar(100)" json:"-"`
-	*gorm.Model
-}
-
-func InitDB() {
-
-	dsn := "host=ec2-3-229-11-55.compute-1.amazonaws.com user=zzrjjedyarnucl password=2706b8a43ee46e5f83d361b0bfd931bbd80a42ade11cfbe90d45cd6362f790a9 dbname=dd29tj5s6ptpvg port=5432 sslmode=require TimeZone=Asia/Shanghai"
-	var err error
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		panic(err.Error())
-	}
-	InitMigrate()
-}
-
-func InitMigrate() {
-	DB.AutoMigrate(&User{}, &Movie{})
 }
