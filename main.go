@@ -12,10 +12,16 @@ import (
 	"rest-api/util"
 	"time"
 
+	// for ex
+	dbMov "rest-api/business/movie/entity"
+	dbUser "rest-api/business/user/entity"
+
 	_ "rest-api/docs"
 
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 // @title Swagger Movie API
@@ -68,4 +74,17 @@ func main() {
 		log.Fatal(err)
 	}
 
+}
+
+var DB *gorm.DB
+
+func InitDB() {
+
+	dsn := "host=ec2-3-229-11-55.compute-1.amazonaws.com user=zzrjjedyarnucl password=2706b8a43ee46e5f83d361b0bfd931bbd80a42ade11cfbe90d45cd6362f790a9 dbname=dd29tj5s6ptpvg port=5432 sslmode=require TimeZone=Asia/Shanghai"
+	var err error
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic(err)
+	}
+	DB.AutoMigrate(&dbUser.User{}, &dbMov.Movie{})
 }
