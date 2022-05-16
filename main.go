@@ -12,10 +12,6 @@ import (
 	"rest-api/util"
 	"time"
 
-	// for ex
-
-	dbUser "rest-api/business/user/entity"
-
 	_ "rest-api/docs"
 
 	"github.com/labstack/echo/v4"
@@ -97,7 +93,14 @@ type Movies struct {
 	Poster     string `gorm:"type:longtext" json:"-"`
 	ImdbRating string `gorm:"type:varchar(100)" json:"-"`
 	UserID     int64
-	User       dbUser.User `gorm:"foreignkey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"-"`
+	User       User `gorm:"foreignkey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"-"`
+}
+type User struct {
+	ID       int64  `gorm:"primary_key:auto_increment" json:"-"`
+	Name     string `gorm:"type:varchar(100)" json:"-"`
+	Email    string `gorm:"type:varchar(100);unique;" json:"-"`
+	Password string `gorm:"type:varchar(100)" json:"-"`
+	*gorm.Model
 }
 
 func InitDB() {
@@ -108,5 +111,9 @@ func InitDB() {
 	if err != nil {
 		panic(err.Error())
 	}
-	DB.AutoMigrate(&Movies{}, &dbUser.User{})
+	InitMigrate()
+}
+
+func InitMigrate() {
+	DB.AutoMigrate(&User{}, &Movies{})
 }
