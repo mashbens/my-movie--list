@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/signal"
 	"rest-api/api"
 	"rest-api/app/modules"
 	"rest-api/config"
@@ -56,9 +55,9 @@ func main() {
 	}
 	e.Logger.Fatal(e.Start(":" + port))
 
-	quit := make(chan os.Signal)
-	signal.Notify(quit, os.Interrupt)
-	<-quit
+	// quit := make(chan os.Signal)
+	// signal.Notify(quit, os.Interrupt)
+	// <-quit
 
 	defer dbCon.CloseConnection()
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
