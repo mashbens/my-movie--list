@@ -113,16 +113,27 @@ func (controller *MovieController) AddWishList(c echo.Context) error {
 // @Success 200 {object} response.Response
 // @Failure 400 {object} response.Response
 // @Router /api/v1/movie/search [post]
+
+// SearchMovie godoc
+// @Summary Search movie
+// @Description Search movie, Header[Authorization]: Token, Param: movie name
+// @Description Example: /api/v1/movie/search/avengers
+// @Tags movie
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Response
+// @Router /api/v1/movie/search [post]
 func (controller *MovieController) SearchMovie(c echo.Context) error {
 	authHeader := c.Request().Header.Get("Authorization")
 	token := controller.jwtService.ValidateToken(authHeader, c)
 	claims := token.Claims.(jwt.MapClaims)
 	userID := fmt.Sprintf("%v", claims["user_id"])
 	_ = userID
-	req := new(dto.MovieRequest)
-	c.Bind(req)
+
+	search := c.Request().URL.Query().Get("search")
 	api := gomdb.Init("11ab3263")
-	query := &gomdb.QueryData{Title: req.Search, SearchType: gomdb.MovieSearch}
+	query := &gomdb.QueryData{Title: search, SearchType: gomdb.MovieSearch}
 	res, err := api.Search(query)
 	if err != nil {
 		fmt.Println(err)

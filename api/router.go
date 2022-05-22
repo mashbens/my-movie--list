@@ -31,7 +31,7 @@ func RegisterRoutes(e *echo.Echo, controller *Controller) {
 
 	movieRoutes := e.Group("/api/v1/movie", middleware.AuthorizeJWT(jwtService))
 	movieRoutes.GET("/mylist", controller.Movie.All)
-	movieRoutes.GET("/search/:search", controller.Movie.SearchMovie)
+	movieRoutes.GET("", controller.Movie.SearchMovie)
 	movieRoutes.POST("/addlist", controller.Movie.AddWishList)
 	movieRoutes.GET("/mylist/:id", controller.Movie.FindOneMovieByID)
 	movieRoutes.DELETE("/mylist/:id", controller.Movie.DeleteMovie)
